@@ -1,22 +1,27 @@
 #include<iostream>
+#include<unordered_map>
 #include<vector>
 using namespace std; 
 
 class Solution {
     public: 
         vector<int> TwoSum(vector<int>& nums, int target) {
-            vector<int> result; 
-            for (int i = 0; i< nums.size(); i++) {
-                for (int j = i + 1; j < nums.size(); j++) {
-                    if (nums[i] + nums[j] == target) {
-                        result.push_back(i); 
-                        result.push_back(j); 
-                        return result; 
-                    }
+            unordered_map<int, int> result; 
+            // Store each number and its index in the map
+            for (int i =0; i < nums.size(); ++i) {
+                result[nums[i]] = i; 
+            }
+
+            for (int i = 0; i< nums.size(); ++i) {
+                // find the complement of the current number
+                int complement = target - nums[i]; 
+
+                if (result.find(complement) != result.end() && result[complement] != i) {
+                    return {i, result[complement]}; 
                 }
             }
 
-            return result; 
+            throw invalid_argument("No two sum solution found"); 
         }
 
 }; 
